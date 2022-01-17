@@ -26,7 +26,7 @@ function onStartBtnClick() {
     refs.minutes.textContent = `${minutes}`;
     refs.seconds.textContent = `${seconds}`;
 
-    if (seconds === '00') {
+    if (days === '00' && hours === '00' && minutes === '00' && seconds === '00') {
       clearInterval(intervalId);
       Notiflix.Notify.success('Time is up');
     }
