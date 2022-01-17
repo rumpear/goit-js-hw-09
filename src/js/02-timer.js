@@ -17,15 +17,6 @@ let remainingTime = 0;
 refs.startBtn.addEventListener('click', onStartBtnClick);
 
 function onStartBtnClick() {
-  //   const time = convertMs(remainingTime);
-  //   const { days, hours, minutes, seconds } = time;
-  //   refs.days.textContent = `${days}`;
-  //   refs.hours.textContent = `${hours}`;
-  //   refs.minutes.textContent = `${minutes}`;
-  //   refs.seconds.textContent = `${seconds}`;
-  //   console.log(time);
-  //   ________
-
   const intervalId = setInterval(() => {
     const time = convertMs(remainingTime);
     const { days, hours, minutes, seconds } = time;
@@ -44,34 +35,9 @@ function onStartBtnClick() {
   }, 1000);
 }
 
-const options = {
-  enableTime: true,
-  time_24hr: true,
-  defaultDate: new Date(),
-  minuteIncrement: 1,
-  onClose(selectedDates) {
-    const [days] = selectedDates; //деструктуризация массива. days - первый элемент массива;
-
-    if (days < new Date()) {
-      Notiflix.Notify.failure('Please choose a date in the future');
-    } else {
-      refs.startBtn.disabled = false;
-    }
-
-    const intervalId = setInterval(() => {
-      //console.log((remainingTime = days - new Date()));
-      remainingTime = days - new Date();
-      if (remainingTime < 1000) {
-        clearInterval(intervalId);
-        // Notiflix.Notify.success('Time is up');
-      }
-
-      return remainingTime;
-    }, 1000);
-  },
-};
-
-flatpickr('#datetime-picker', options);
+function addLeadingZero(value) {
+  return String(value).padStart(2, 0);
+}
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
@@ -92,6 +58,31 @@ function convertMs(ms) {
   return { days, hours, minutes, seconds };
 }
 
-function addLeadingZero(value) {
-  return String(value).padStart(2, 0);
-}
+const options = {
+  enableTime: true,
+  time_24hr: true,
+  defaultDate: Date.now(), //Date.now() - статический метод. используется вместо new Date(), если нужно получить текущее время в милисекундах. в отличие от new Date() не создает новый экземлпяр
+  minuteIncrement: 1,
+  onClose(selectedDates) {
+    const [days] = selectedDates; //деструктуризация массива. days - первый элемент массива;
+
+    if (days < Date.now()) {
+      Notiflix.Notify.failure('Please choose a date in the future');
+    } else {
+      refs.startBtn.disabled = false;
+    }
+
+    const intervalId = setInterval(() => {
+      //console.log((remainingTime = days - Date.now()));
+      remainingTime = days - Date.now();
+      if (remainingTime < 1000) {
+        clearInterval(intervalId);
+        // Notiflix.Notify.success('Time is up');
+      }
+
+      return remainingTime;
+    }, 1000);
+  },
+};
+
+flatpickr('#datetime-picker', options);
