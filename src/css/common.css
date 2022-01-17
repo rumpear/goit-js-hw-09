@@ -16,3 +16,29 @@ img {
   display: block;
   max-width: 100%;
 }
+
+.flatpickr-input{
+  display: inline-block;
+}
+
+.timer {
+
+  margin-bottom: 10px;
+}
+
+.value {
+
+  display: inline-block;
+  font-size: 50px;
+  background-color: #212121;
+  color: #fafafa;
+  border-radius: 4px;
+  margin: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+
+.label {
+  font-size: 50px;
+}
